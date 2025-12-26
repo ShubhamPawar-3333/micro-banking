@@ -1,16 +1,11 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { authService } from '../services';
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-    const [isAuthenticated, setIsAuthenticated] = useState(authService.isAuthenticated());
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        setIsAuthenticated(authService.isAuthenticated());
-        setLoading(false);
-    }, []);
+    const [isAuthenticated, setIsAuthenticated] = useState(() => authService.isAuthenticated());
+    const loading = false; // Auth check is synchronous (localStorage)
 
     const login = async (credentials) => {
         await authService.login(credentials);
@@ -33,6 +28,7 @@ export function AuthProvider({ children }) {
     );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
     const context = useContext(AuthContext);
     if (!context) {

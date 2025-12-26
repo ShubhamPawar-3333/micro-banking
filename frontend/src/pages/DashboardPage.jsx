@@ -32,7 +32,7 @@ export default function DashboardPage() {
             await accountService.createAccount(accountType);
             setShowNewAccountModal(false);
             loadData();
-        } catch (error) {
+        } catch {
             alert('Failed to create account');
         }
     };
